@@ -1,0 +1,35 @@
+
+<Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+<DialogContent className="sm:max-w-[425px]">
+    {/* Add DialogTitle for accessibility */}
+    <DialogTitle className="sr-only">Create a New Category</DialogTitle>
+
+    <DialogHeader>
+        <h2 className="text-xl font-semibold">Create a new category</h2>
+    </DialogHeader>
+
+    <DialogClose />
+
+    <div className="space-y-4 py-4">
+        <div className="space-y-2">
+            <label className="text-sm font-medium" htmlFor="categoryName">
+                Category Name
+            </label>
+            <Input
+                id="categoryName"
+                onChange={e => setNewCategory(e.target.value)}
+                placeholder="Enter category name"
+                className="h-12"
+            />
+        </div>
+    </div>
+
+    <Button
+        className="w-full bg-[#2A7C7C] hover:bg-[#246666] h-12"
+        onClick={() => handleCreateNewCategory(newCategory)}
+        disabled={!newCategory}
+    >
+        Save
+    </Button>
+</DialogContent>
+</Dialog>
