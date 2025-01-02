@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM node:22-alpine AS builder
+FROM node:18-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -22,8 +22,8 @@ FROM nginx:alpine AS production
 # Copy the build output from the builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Expose port 8089
-EXPOSE 8089
+# Expose port 80
+EXPOSE 80
 
 # Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
