@@ -20,6 +20,7 @@ export function Login() {
         e.preventDefault();
 
         const success = await signIn(formData.email, formData.password);
+        console.log(success);
         if (success) {
             navigate('/dashboard'); // Redirect to dashboard after successful login
         } else {
