@@ -4,11 +4,14 @@ FROM node:18-alpine AS builder
 # Set working directory
 WORKDIR /app
 
+# Install build dependencies for native modules (minimal set)
+RUN apk add --no-cache python3 make g++
+
 # Copy package.json and package-lock.json for dependency installation
 COPY package.json package-lock.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies in a clean environment
+RUN npm ci --legacy-peer-deps
 
 # Copy the rest of the application code
 COPY . .
@@ -16,7 +19,7 @@ COPY . .
 # Build the application for production
 RUN npm run build
 
-# Stage 2: Serve the application with a lightweight server
+# Stage 2: Serve the application with NGINX
 FROM nginx:alpine AS production
 
 # Copy the build output from the builder stage
