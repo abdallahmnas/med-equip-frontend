@@ -1,20 +1,8 @@
 services:
-  app:
-    build:
-      context: .
-      target: builder
-    image: medequip-fe-builder
-    working_dir: /app
-    volumes:
-      - .:/app
-    command: npm run build
-
   web:
     build:
       context: .
       target: production
     image: medequip-fe-app
     ports:
-      - "80:80"
-    depends_on:
-      - app
+      - "3000:3000"
