@@ -8,7 +8,7 @@ WORKDIR /app
 RUN apk add --no-cache python3 make g++
 
 # Copy package.json and package-lock.json for dependency installation
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
 # Install dependencies in a clean environment
 RUN npm ci --legacy-peer-deps
