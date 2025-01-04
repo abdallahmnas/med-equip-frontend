@@ -11,9 +11,40 @@ export function AuthLayout({ children }: any) {
             />
             <div className="w-full max-w-md">
                 {/* <div className="bg-white rounded-3xl p-8 shadow-lg"> */}
+                <AuthBackground />
                 {children}
                 {/* </div> */}
             </div>
         </div>
     )
 }
+
+export function AuthBackground() {
+    return (
+        <div className="fixed inset-0 -z-10">
+            <svg
+                className="h-full w-full"
+                viewBox="0 0 1200 800"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="xMidYMid slice"
+            >
+                <path
+                    d="M0 0C100 50 200 150 400 200C600 250 800 200 1000 150C1200 100 1400 150 1600 200V800H0V0Z"
+                    fill="#2A7C7C"
+                    opacity="0.3"
+                />
+                <path
+                    d="M0 100C200 150 400 250 600 300C800 350 1000 300 1200 250C1400 200 1600 250 1800 300V800H0V100Z"
+                    fill="#2A7C7C"
+                    opacity="0.4"
+                />
+                <path
+                    d="M0 200C200 250 400 350 600 400C800 450 1000 400 1200 350C1400 300 1600 350 1800 400V800H0V200Z"
+                    fill="#2A7C7C"
+                    opacity="0.5"
+                />
+            </svg>
+        </div>
+    )
+}
+

@@ -1,14 +1,22 @@
 import { useState } from 'react'
 import { LayoutDashboard, Users, Wrench, Settings, LogOut, Menu } from 'lucide-react'
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 // import { motion } from "framer-motion"
 import { cn } from "../../lib/utils"
 import { Button } from "../ui/button"
 import { motion } from 'framer-motion'
+import { useAuth } from '../../contexts/AuthContext'
 
 export function Sidebar({ className }: { className?: string }) {
     const [isCollapsed, setIsCollapsed] = useState(false)
     const location = useLocation()
+    const { signOut } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        signOut();
+        navigate('/login');
+    }
 
     const links = [
         { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
@@ -47,7 +55,9 @@ export function Sidebar({ className }: { className?: string }) {
                     ))}
                 </nav>
                 <div className="border-t p-2">
-                    <button className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
+                    <button
+                        onClick={handleLogout}
+                        className="flex w-full items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900">
                         <LogOut className="h-5 w-5 flex-shrink-0" />
                         {!isCollapsed && <span>Logout</span>}
                     </button>

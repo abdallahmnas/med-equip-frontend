@@ -10,6 +10,8 @@ import { Login } from '../pages/Login';
 import { Accounts } from '../pages/admin/Accounts';
 import { Equipment } from '../pages/admin/Equipment';
 import { ProtectedRoute } from './ProtectedRoute';
+import { EquipmentDetails } from '../pages/admin/EquipmentDetails';
+import AccountDetails from '../pages/admin/AccountDetails';
 
 
 
@@ -26,7 +28,9 @@ const AppRoutes: React.FC = () => {
             <Route element={<ProtectedRoute />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/accounts" element={<Accounts />} />
+                <Route path="/accounts/:id" element={<AccountDetails />} />
                 <Route path="/equipments" element={<Equipment />} />
+                <Route path="/equipments/:id" element={<EquipmentDetails />} />
             </Route>
         </Routes>
     );

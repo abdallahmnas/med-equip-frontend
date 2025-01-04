@@ -39,9 +39,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, []);
 
     const signIn = async (email: string, password: string): Promise<boolean> => {
-        const success = await login(email, password);
-        return success;
+        const response = await login(email, password);
+
+        if (response.success) {
+            setUser(response.data); // Update the user state with the returned user data
+            return true;
+        }
+
+        return false; // Return false for failed logins
     };
+
 
     const signOut = () => {
         localStorage.removeItem('token'); // Clear token from localStorage

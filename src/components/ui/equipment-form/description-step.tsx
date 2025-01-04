@@ -1,12 +1,12 @@
 
-// import { Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 import { useEquipmentForm } from '../../../contexts/Equipment-form-context'
 import { useState } from 'react'
 import { Textarea } from '../textarea'
 import { Button } from '../button'
 
 export function DescriptionStep() {
-    const { updateFormData, goToNextStep, goToPreviousStep } = useEquipmentForm()
+    const { formData, updateFormData, goToNextStep, goToPreviousStep } = useEquipmentForm()
     const [newStep, setNewStep] = useState({ description: '' })
 
     const nextStep = () => {

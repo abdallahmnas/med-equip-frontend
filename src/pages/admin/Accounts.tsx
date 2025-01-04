@@ -11,18 +11,21 @@ import {
 import { MainLayout } from '../../components/layout'
 import { useState, useEffect } from "react"
 import { getAllUsers, deleteUser } from "../../services/users.service.js"  // Assuming userService is in the 'services' folder
+import { useNavigate } from 'react-router-dom'
 
 interface User {
     id: string
     firstname: string
     lastname: string
     occupation: string
-    location: string
+    address: string
 }
 
 
 export function Accounts() {
     const [users, setUsers] = useState<User[]>([])
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -86,10 +89,14 @@ export function Accounts() {
                                         <TableRow key={user.id}>
                                             <TableCell>{user.firstname} {user.lastname}</TableCell>
                                             <TableCell>{user.occupation}</TableCell>
-                                            <TableCell>{user.location}</TableCell>
+                                            <TableCell>{user.address}</TableCell>
                                             <TableCell className="text-right">
                                                 <div className="flex justify-end gap-2">
-                                                    <Button variant="outline" size="icon" className="h-8 w-8">
+                                                    <Button variant="outline" size="icon" className="h-8 w-8"
+                                                        onClick={
+                                                            () => navigate(`../accounts/${user.id}`)
+                                                        }
+                                                    >
                                                         <Eye className="h-4 w-4" />
                                                         <span className="sr-only">View user</span>
                                                     </Button>

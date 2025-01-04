@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -8,25 +8,38 @@ import { AuthLayout } from '../components/layout/auth-Layout';
 
 export function Login() {
     const navigate = useNavigate();
-    const { signIn } = useAuth(); // Access the signIn function from AuthContext
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        rememberMe: false,
-    });
+    const { signIn, signOut } = useAuth();
+    const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+
+    // useEffect(() => {
+    //     // logout on render
+    //     signOut();
+    // }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setIsLoading(true);
 
-        const success = await signIn(formData.email, formData.password);
-        console.log(success);
-        if (success) {
-            navigate('/dashboard'); // Redirect to dashboard after successful login
-        } else {
-            setErrorMessage('Invalid email or password. Please try again.');
+        try {
+            const success = await signIn(formData.email, formData.password);
+            if (!success) {
+                setErrorMessage('Invalid email or password.');
+                return;
+            }
+
+            const redirectTo = '/dashboard'; // Adjust the redirect path if needed
+            navigate(redirectTo);
+        } catch (error: any) {
+            console.error('Login error:', error.message);
+            setErrorMessage(error.message || 'An error occurred during login.');
+        } finally {
+            setIsLoading(false);
         }
     };
+
 
     return (
         <AuthLayout>
@@ -35,40 +48,33 @@ export function Login() {
                 <p className="text-center text-gray-500 mb-6">Enter your email and password to continue</p>
 
                 {errorMessage && (
-                    <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center">
+                    <div className="bg-red-100 text-red-700 px-4 py-2 rounded mb-4 text-center" aria-live="polite">
                         {errorMessage}
                     </div>
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div className="space-y-2">
-                        <label htmlFor="email" className="text-sm font-medium">
-                            Email Address
-                        </label>
+                        <label htmlFor="email" className="text-sm">Email Address</label>
                         <Input
                             id="email"
                             type="email"
                             placeholder="example@email.com"
+                            autoComplete="email"
                             value={formData.email}
-                            onChange={(e) =>
-                                setFormData((prev) => ({ ...prev, email: e.target.value }))
-                            }
+                            onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
                             required
                         />
                     </div>
 
                     <div className="space-y-2">
-                        <label htmlFor="password" className="text-sm font-medium">
-                            Password
-                        </label>
+                        <label htmlFor="password" className="text-sm">Password</label>
                         <Input
                             id="password"
                             type="password"
                             placeholder="Your password"
                             value={formData.password}
-                            onChange={(e) =>
-                                setFormData((prev) => ({ ...prev, password: e.target.value }))
-                            }
+                            onChange={(e) => setFormData((prev) => ({ ...prev, password: e.target.value }))}
                             required
                         />
                     </div>
@@ -81,24 +87,25 @@ export function Login() {
                                 setFormData((prev) => ({ ...prev, rememberMe: !!checked }))
                             }
                         />
-                        <label
-                            htmlFor="remember"
-                            className="text-sm font-medium leading-none cursor-pointer"
-                        >
+                        <label htmlFor="remember" className="text-sm leading-none cursor-pointer">
                             Remember Me
                         </label>
                     </div>
 
-                    <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700">
-                        Sign In
+                    <Button
+                        type="submit"
+                        className={`w-full ${isLoading ? 'bg-gray-400' : 'bg-teal-600 hover:bg-teal-700'}`}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? 'Signing In...' : 'Sign In'}
                     </Button>
                 </form>
 
                 <p className="text-center text-sm mt-6">
                     Don't have an account?{' '}
-                    <a href="/register" className="text-teal-600 hover:underline">
+                    <Link to="/register" className="text-teal-600 hover:underline">
                         Create Account
-                    </a>
+                    </Link>
                 </p>
             </div>
         </AuthLayout>

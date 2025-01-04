@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Plus, X } from 'lucide-react'
 import { useEquipmentForm } from '../../../contexts/Equipment-form-context'
-// import { Input } from '../input'
+import { Input } from '../input'
 import { Button } from '../button'
 import { Textarea } from '../textarea'
 

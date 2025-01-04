@@ -5,6 +5,10 @@ function storeToken(token: string) {
     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 }
 
+function setErrorMessage(message: string) {
+    localStorage.setItem('errorMessage', message);
+}
+
 async function login(email: string, password: string): Promise<any> {
     try {
         const response = await api.post<any>('/auth/signin', { email, password });
@@ -13,13 +17,18 @@ async function login(email: string, password: string): Promise<any> {
         // Store token and setup axios authorization
         storeToken(accessToken);
 
-        console.log('Login successful!', user);
-        return response.data;
+        return {
+            success: true,
+            data: user,
+        };
     } catch (error: any) {
-        console.error('Login failed:', error.response?.data?.message || error.message);
-        throw new Error(error.response?.data?.message || 'Login failed');
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message || 'Login failed',
+        };
     }
 }
+
 
 async function signup(username: string, password: string, email: string): Promise<void> {
     try {
@@ -32,6 +41,7 @@ async function signup(username: string, password: string, email: string): Promis
         console.log('Signup successful!', user);
     } catch (error: any) {
         console.error('Signup failed:', error.response?.data?.message || error.message);
+        setErrorMessage(error.response?.data?.message || 'Signup failed');
         throw new Error(error.response?.data?.message || 'Signup failed');
     }
 }

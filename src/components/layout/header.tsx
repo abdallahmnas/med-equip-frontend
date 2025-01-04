@@ -1,4 +1,4 @@
-import { ChevronDown, Menu } from 'lucide-react'
+import { ChevronDown, Menu, User } from 'lucide-react'
 import { Button } from "../ui/button"
 import { useAuth } from '../../contexts/AuthContext'
 
@@ -18,12 +18,13 @@ export function Header({ onMenuClick }: HeaderProps) {
             </div>
             <div className="flex flex-row items-center gap-2  bg-primary rounded-full px-4 py-2">
                 <div className="">
-                    <img
+                    {/* <img
                         src="/placeholder.svg?height=32&width=32"
                         alt="User avatar"
                         className="h-8 w-8 rounded-full"
 
-                    />
+                    /> */}
+                    <User />
                 </div>
                 <div className="flex flex-col sm:flex">
                     <div className="text-sm font-medium">{user?.firstname} {user?.lastname}</div>

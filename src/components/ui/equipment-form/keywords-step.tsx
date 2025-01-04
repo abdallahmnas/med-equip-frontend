@@ -35,7 +35,7 @@ export function KeywordsStep() {
             <div className="space-y-4">
                 <div className="flex gap-2">
                     <Input
-                        placeholder="Specification name"
+                        placeholder="Keyword"
                         value={newKeyword}
                         onChange={(e) => setNewKeyword(e.target.value)}
                         className="h-12"

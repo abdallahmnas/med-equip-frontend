@@ -16,7 +16,7 @@ import { UseCasesStep } from "./ui/equipment-form/usecases-step"
 const TOTAL_STEPS = 9
 
 export function AddEquipmentForm() {
-    const { currentStep } = useEquipmentForm()
+    const { currentStep, formData } = useEquipmentForm()
 
     const getCurrentStepNumber = () => {
         const stepMap = {
@@ -57,24 +57,28 @@ export function AddEquipmentForm() {
 
     return (
         <MainLayout title="Add Equipment">
-            <div className="w-full max-w-2xl mx-auto">
-                <div className="bg-white rounded-lg p-6 shadow-sm">
-                    {currentStep !== 'success' && (
-                        <div className="flex justify-center mb-8">
-                            <div className="flex gap-2">
-                                {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-                                    <div
-                                        key={i}
-                                        className={`h-1 w-12 rounded-full ${i + 1 === getCurrentStepNumber() ? 'bg-[#2A7C7C]' : 'bg-gray-200'
-                                            }`}
-                                    />
-                                ))}
+            {/* {JSON.stringify(formData)} */}
+            {
+                currentStep === 'review' && <ReviewStep />
+                || <div className="w-full max-w-2xl mx-auto">
+                    <div className="bg-white rounded-lg p-6 shadow-sm">
+                        {currentStep !== 'success' && (
+                            <div className="flex justify-center mb-8">
+                                <div className="flex gap-2">
+                                    {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+                                        <div
+                                            key={i}
+                                            className={`h-1 w-12 rounded-full ${i + 1 === getCurrentStepNumber() ? 'bg-[#2A7C7C]' : 'bg-gray-200'
+                                                }`}
+                                        />
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    )}
-                    {renderStep()}
+                        )}
+                        {renderStep()}
+                    </div>
                 </div>
-            </div>
+            }
         </MainLayout>
     )
 }

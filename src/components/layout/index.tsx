@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { AnimatePresence } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Header } from "./header"
 import { Sidebar } from "./sidebar"
 
-export function MainLayout({ children }: { title: string, children: React.ReactNode }) {
+export function MainLayout({ title, children }: { title: string, children: React.ReactNode }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
     return (
