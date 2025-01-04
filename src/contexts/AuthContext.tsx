@@ -4,7 +4,7 @@ import { login } from '../services/auth.service'; // Function to handle login
 
 interface AuthContextProps {
     user: User | any;
-    signIn: (email: string, password: string) => Promise<boolean>;
+    signIn: (email: string, password: string) => Promise<any>;
     signOut: () => void;
     loading: boolean;
 }
@@ -38,15 +38,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    const signIn = async (email: string, password: string): Promise<boolean> => {
+    const signIn = async (email: string, password: string): Promise<any> => {
         const response = await login(email, password);
 
         if (response.success) {
-            setUser(response.data); // Update the user state with the returned user data
-            return true;
+            return {
+                message: response.message,
+                success: true,
+                data: response.data,
+            }
         }
 
-        return false; // Return false for failed logins
+        return {
+            message: response.message,
+            success: false,
+            data: null,
+        }
     };
 
 

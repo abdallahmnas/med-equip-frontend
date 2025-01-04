@@ -18,6 +18,7 @@ async function login(email: string, password: string): Promise<any> {
         storeToken(accessToken);
 
         return {
+            message: 'Login successful!',
             success: true,
             data: user,
         };

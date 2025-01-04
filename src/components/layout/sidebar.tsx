@@ -22,7 +22,7 @@ export function Sidebar({ className }: { className?: string }) {
         { name: "Dashboard", icon: LayoutDashboard, path: "/dashboard" },
         { name: "Accounts", icon: Users, path: "/accounts" },
         { name: "Equipments", icon: Wrench, path: "/equipments" },
-        { name: "Settings", icon: Settings, path: "/settings" },
+        { name: "Settings", icon: Settings, path: "/settings", disabled: true },
     ]
 
     return (
@@ -39,19 +39,23 @@ export function Sidebar({ className }: { className?: string }) {
                 </div>
                 <nav className="flex-1 space-y-1 p-2">
                     {links.map((link) => (
-                        <Link
-                            key={link.path}
-                            to={link.path}
-                            className={cn(
-                                "flex items-center gap-2 rounded-md px-3 py-6 text-sm font-medium",
-                                location.pathname === link.path
-                                    ? " text-[#297F7F] border-[#297F7F]  border-l-8"
-                                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-                            )}
-                        >
-                            <link.icon className="h-5 w-5 flex-shrink-0" />
-                            {!isCollapsed && <span>{link.name}</span>}
-                        </Link>
+                       <Link
+                       key={link.path}
+                       to={link.disabled ? "#" : link.path} // Disable navigation if the link is disabled
+                       onClick={(e) => link.disabled && e.preventDefault()} // Prevent click action if disabled
+                       className={cn(
+                           "flex items-center gap-2 rounded-md px-3 py-6 text-sm font-medium",
+                           link.disabled
+                               ? "text-gray-400 cursor-not-allowed" // Apply disabled styles
+                               : location.pathname === link.path
+                               ? "text-[#297F7F] border-[#297F7F] border-l-8"
+                               : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                       )}
+                   >
+                       <link.icon className="h-5 w-5 flex-shrink-0" />
+                       {!isCollapsed && <span>{link.name}</span>}
+                   </Link>
+                   
                     ))}
                 </nav>
                 <div className="border-t p-2">

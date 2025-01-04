@@ -5,6 +5,7 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Checkbox } from '../components/ui/checkbox';
 import { AuthLayout } from '../components/layout/auth-Layout';
+import {Toaster, toast} from 'sonner';
 
 export function Login() {
     const navigate = useNavigate();
@@ -24,16 +25,18 @@ export function Login() {
         setIsLoading(true);
 
         try {
-            const success = await signIn(formData.email, formData.password);
-            if (!success) {
-                setErrorMessage('Invalid email or password.');
+            const resp = await signIn(formData.email, formData.password);
+            if (!resp.success) {
+                setErrorMessage(resp.message);
+                toast.error(resp.message);
                 return;
             }
-
+            toast.success(resp.message);
             const redirectTo = '/dashboard'; // Adjust the redirect path if needed
             navigate(redirectTo);
         } catch (error: any) {
             console.error('Login error:', error.message);
+            toast.error(error.message);
             setErrorMessage(error.message || 'An error occurred during login.');
         } finally {
             setIsLoading(false);
@@ -44,6 +47,7 @@ export function Login() {
     return (
         <AuthLayout>
             <div className="bg-white rounded-3xl p-6 shadow-lg w-full max-w-md mx-auto">
+                <Toaster />
                 <h1 className="text-2xl font-semibold text-center mb-2">Welcome Back</h1>
                 <p className="text-center text-gray-500 mb-6">Enter your email and password to continue</p>
 

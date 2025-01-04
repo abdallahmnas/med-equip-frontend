@@ -18,12 +18,12 @@ export const equpmentsService = {
     },
 
     getEquipment: async (equipmentId: any) => {
-        const response = await api.get(`/equipments/${equipmentId}`)
+        const response = await api.get(`/equipments/find/${equipmentId}`)
         return response.data
     },
 
     getEquipmentList: async () => {
-        const response = await api.get(`/equipments`)
+        const response = await api.get(`/equipments/all`)
         return response.data
     },
 
