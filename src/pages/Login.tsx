@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {  useState } from 'react';
+import { Link,  useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
@@ -9,7 +9,7 @@ import {Toaster, toast} from 'sonner';
 
 export function Login() {
     const navigate = useNavigate();
-    const { signIn, signOut } = useAuth();
+    const { signIn } = useAuth();
     const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);

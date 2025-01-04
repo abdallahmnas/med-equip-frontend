@@ -1,21 +1,21 @@
 import { ArrowLeft } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
-import { Breadcrumb } from '../../components/breadcrumb'
+// import { Breadcrumb } from '../../components/breadcrumb'
 import { Card } from '../../components/ui/card'
 import { Badge } from '../../components/ui/badge'
 import { MainLayout } from '../../components/layout'
 import { useEffect, useState } from 'react'
 import { equpmentsService } from '../../services/equipments.service'
 
-const breadcrumbItems = [
-    { label: 'Equipment List', link: '/equipment' },
-    { label: 'Basic Information', link: '/equipment/1/basic' },
-    { label: 'Product Description', link: '/equipment/1/description' },
-    { label: 'Upload Images', link: '/equipment/1/images' },
-    { label: 'Add Specifications', link: '/equipment/1/properties' },
-    { label: 'Review', link: '/equipment/1/review' },
-]
+// const breadcrumbItems = [
+//     { label: 'Equipment List', link: '/equipment' },
+//     { label: 'Basic Information', link: '/equipment/1/basic' },
+//     { label: 'Product Description', link: '/equipment/1/description' },
+//     { label: 'Upload Images', link: '/equipment/1/images' },
+//     { label: 'Add Specifications', link: '/equipment/1/properties' },
+//     { label: 'Review', link: '/equipment/1/review' },
+// ]
 
 interface EquipmentDetails {
     name: string
@@ -31,23 +31,23 @@ interface EquipmentDetails {
     images: string[]
 }
 
-const equipmentDetailss: EquipmentDetails = {
-    name: "Scissors",
-    category: "Surgery",
-    description: "Lorem ipsum dolor sit amet consectetur. Tellus sapien laoreet quisque lorem dignissim adipiscing sit. Enim preger viverra pellentesque tempus turpis nunc. Amet vel amet morbi elit ultricies quisque a feugiat. Gravida nunc sit sit at mauris viverra a ac nunc.",
-    properties: {
-        age: "19 - 35",
-        gender: "Female",
-        length: "15cm",
-        width: "30cm"
-    },
-    keywords: ["Scissors", "Surgery", "Medical"],
-    images: [
-        "/placeholder.svg?height=200&width=200",
-        "/placeholder.svg?height=200&width=200",
-        "/placeholder.svg?height=200&width=200"
-    ]
-}
+// const equipmentDetailss: EquipmentDetails = {
+//     name: "Scissors",
+//     category: "Surgery",
+//     description: "Lorem ipsum dolor sit amet consectetur. Tellus sapien laoreet quisque lorem dignissim adipiscing sit. Enim preger viverra pellentesque tempus turpis nunc. Amet vel amet morbi elit ultricies quisque a feugiat. Gravida nunc sit sit at mauris viverra a ac nunc.",
+//     properties: {
+//         age: "19 - 35",
+//         gender: "Female",
+//         length: "15cm",
+//         width: "30cm"
+//     },
+//     keywords: ["Scissors", "Surgery", "Medical"],
+//     images: [
+//         "/placeholder.svg?height=200&width=200",
+//         "/placeholder.svg?height=200&width=200",
+//         "/placeholder.svg?height=200&width=200"
+//     ]
+// }
 
 export function EquipmentDetails() {
 
@@ -112,6 +112,7 @@ export function EquipmentDetails() {
                             <div className="grid grid-cols-2 gap-4 mb-6">
                                 {equipmentDetails.properties.map((spec: any, index: any) => (
                                     <div>
+                                        key={index}
                                         <label className="text-sm text-gray-500">{spec?.name}</label>
                                         <p className="font-medium">{spec?.value}</p>
                                         <p className="font-medium">{spec.rangeFrom && `${spec?.rangeFrom} - ${spec.rangeTo}`}</p>

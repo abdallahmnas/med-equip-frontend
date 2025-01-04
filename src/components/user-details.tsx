@@ -1,4 +1,4 @@
-import { ChevronRight } from 'lucide-react'
+
 import { Button } from "../components/ui/button"
 import {
     Card,
@@ -26,7 +26,7 @@ interface UserDetailsProps {
     onDelete: () => void
 }
 
-export function UserDetails({ user, onEdit, onDelete }: UserDetailsProps) {
+export function UserDetails({ user, onDelete }: UserDetailsProps) {
     return (
         <div className="space-y-6">
             {/* Breadcrumb */}

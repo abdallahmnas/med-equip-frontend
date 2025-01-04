@@ -5,7 +5,7 @@ import { equpmentsService } from '../../../services/equipments.service'
 import { Button } from '../button'
 
 export function ReviewStep() {
-    const { formData, goToNextStep, goToPreviousStep, updateFormData } = useEquipmentForm()
+    const { formData, goToNextStep, updateFormData } = useEquipmentForm()
 
     const initialFormData = {
         name: '',

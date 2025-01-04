@@ -3,14 +3,14 @@ import { Plus, X } from 'lucide-react'
 import { useEquipmentForm } from '../../../contexts/Equipment-form-context'
 import { Input } from '../input'
 import { Button } from '../button'
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogTitle } from '@radix-ui/react-dialog'
+import { Dialog, DialogClose, DialogContent, DialogOverlay, DialogTitle } from '@radix-ui/react-dialog'
 
-type Spec = {
-    name: string;
-    value: string | null,
-    rangeFrom: string | null;
-    rangeTo: string | null;
-}
+// type Spec = {
+//     name: string;
+//     value: string | null,
+//     rangeFrom: string | null;
+//     rangeTo: string | null;
+// }
 export function SpecificationsStep() {
     const { formData, updateFormData, goToNextStep, goToPreviousStep } = useEquipmentForm()
     const [newSpec, setNewSpec] = useState<any>({})

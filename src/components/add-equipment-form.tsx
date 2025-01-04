@@ -16,7 +16,7 @@ import { UseCasesStep } from "./ui/equipment-form/usecases-step"
 const TOTAL_STEPS = 9
 
 export function AddEquipmentForm() {
-    const { currentStep, formData } = useEquipmentForm()
+    const { currentStep } = useEquipmentForm()
 
     const getCurrentStepNumber = () => {
         const stepMap = {

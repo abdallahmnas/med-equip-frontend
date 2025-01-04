@@ -11,11 +11,11 @@ import {
 } from "../../components/ui/table"
 import { dateTimeUtils } from "../../lib/dateTime.utils"
 
-interface RecentSearch {
-    search: string
-    searchWord: string
-    dateTime: string
-}
+// interface RecentSearch {
+//     search: string
+//     searchWord: string
+//     dateTime: string
+// }
 
 
 export function RecentSearches() {
