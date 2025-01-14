@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ArrowLeft } from 'lucide-react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { toast } from 'sonner'
+import { toast, Toaster } from 'sonner'
 import { useEquipment } from '../../contexts/EquipmentContext'
 import { equpmentsService } from '../../services/equipments.service'
 import { MainLayout } from '../../components/layout'
@@ -51,9 +51,10 @@ export function EquipmentDetails() {
             toast.success('Equipment deleted successfully')
             navigate('/equipment')
         } catch (error) {
+            toast.error('Failed to delete equipment')
             console.log(error)
             console.error('Failed to delete equipment:', error)
-            toast.error('Failed to delete equipment')
+            
         } finally {
             setIsDeleting(false)
             setIsDeleteDialogOpen(false)
@@ -62,6 +63,7 @@ export function EquipmentDetails() {
 
     return (
         <MainLayout title=''>
+            <Toaster />
             {equipmentDetails.name ? (
                 <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
                     <div className="flex items-center justify-between">
