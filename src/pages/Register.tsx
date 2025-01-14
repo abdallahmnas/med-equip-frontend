@@ -4,9 +4,13 @@ import { Input } from '../components/ui/input'
 import { Checkbox } from '../components/ui/checkbox'
 import { Button } from '../components/ui/button'
 import { AuthLayout } from '../components/layout/auth-Layout'
+import { signup } from '../services/auth.service'
+import { toast } from 'sonner'
 
 export function Register() {
     const navigate = useNavigate()
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -17,8 +21,25 @@ export function Register() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        // Here you would typically handle registration
-        navigate('/verify')
+        try {
+            const resp: any = await signup(formData.username, formData.password, formData.email);
+            if (!resp.success) {
+                setErrorMessage(resp.message);
+                toast.error(resp.message);
+                return;
+            }
+            // setUser(resp.data)
+            toast.success("Register successful");
+            const redirectTo = '/dashboard'; 
+            navigate(redirectTo)
+            
+        } catch (error: any) {
+            console.error('Signup error:', error.message);
+            toast.error(error.message);
+            setErrorMessage(error.message || 'An error occurred during login.');
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (

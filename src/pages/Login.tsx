@@ -6,13 +6,15 @@ import { Input } from '../components/ui/input';
 import { Checkbox } from '../components/ui/checkbox';
 import { AuthLayout } from '../components/layout/auth-Layout';
 import {Toaster, toast} from 'sonner';
+import { login } from '../services/auth.service';
 
 export function Login() {
     const navigate = useNavigate();
-    const { signIn } = useAuth();
+    const { setUser } = useAuth();
     const [formData, setFormData] = useState({ email: '', password: '', rememberMe: false });
     const [errorMessage, setErrorMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    // const {user} = useAuth()
 
 
     // useEffect(() => {
@@ -25,15 +27,17 @@ export function Login() {
         setIsLoading(true);
 
         try {
-            const resp = await signIn(formData.email, formData.password);
+            const resp = await login(formData.email, formData.password);
             if (!resp.success) {
                 setErrorMessage(resp.message);
                 toast.error(resp.message);
                 return;
             }
-            toast.success(resp.message);
-            const redirectTo = '/dashboard'; // Adjust the redirect path if needed
-            navigate(redirectTo);
+            setUser(resp.data)
+            toast.success("Login successful");
+            const redirectTo = '/dashboard'; 
+            navigate(redirectTo)
+            
         } catch (error: any) {
             console.error('Login error:', error.message);
             toast.error(error.message);

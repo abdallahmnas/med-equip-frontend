@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import api from '../services/api'; // Axios instance for API requests
-import { login } from '../services/auth.service'; // Function to handle login
+// import { login } from '../services/auth.service'; // Function to handle login
 
 interface AuthContextProps {
     user: User | any;
-    signIn: (email: string, password: string) => Promise<any>;
+    setUser:any;
+    // signIn: (email: string, password: string) => Promise<any>;
     signOut: () => void;
     loading: boolean;
 }
@@ -22,15 +23,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | any>(null);
     const [loading, setLoading] = useState(true); // Track loading state
 
+
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
             api.defaults.headers.Authorization = `Bearer ${token}`;
-            api
-                .get('/auth/me') // Assuming there's an endpoint to get current user
-                .then((response) => setUser(response.data))
-                .catch(() => signOut())
-                .finally(() => setLoading(false));
+            setLoading(false);
+            // api
+            //     .get('/auth/me') // Assuming there's an endpoint to get current user
+            //     .then((response) => {setUser(response.data)})
+            //     .catch(() => signOut())
+            //     .finally(() => setLoading(false));
 
 
         } else {
@@ -38,23 +41,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    const signIn = async (email: string, password: string): Promise<any> => {
-        const response = await login(email, password);
+    // const signIn = async (email: string, password: string): Promise<any> => {
+    //     const response = await login(email, password);
 
-        if (response.success) {
-            return {
-                message: response.message,
-                success: true,
-                data: response.data,
-            }
-        }
+    //     if (response.success) {
+    //         setUser(response.data);
+    //         localStorage.setItem('token', response.accessToken);
+    //         console.log(response.data)
+    //         return {
+    //             message: response.message,
+    //             success: true,
+    //             data: response.data,
+    //             accessToken: response.accessToken,
+    //         }
+    //     }
 
-        return {
-            message: response.message,
-            success: false,
-            data: null,
-        }
-    };
+    //     return {
+    //         message: response.message,
+    //         success: false,
+    //         data: null,
+    //     }
+    // };
 
 
     const signOut = () => {
@@ -64,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     return (
-        <AuthContext.Provider value={{ user, signIn, signOut, loading }}>
+        <AuthContext.Provider value={{ user, setUser, signOut, loading }}>
             {children}
         </AuthContext.Provider>
     );

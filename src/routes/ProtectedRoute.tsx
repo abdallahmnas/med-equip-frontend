@@ -1,12 +1,16 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { PageLoading } from '../components/page-loading';
 
 export const ProtectedRoute = () => {
-    const { user, loading } = useAuth();
+    const { loading, user } = useAuth();
+    const token = localStorage.getItem('token');
 
-    if (loading) {
-        return <div>Loading...</div>; // Optional spinner/placeholder
+
+    if (loading || !user) {
+        return <PageLoading />
     }
+    console.log(token)
 
-    return user ? <Outlet /> : <Navigate to="/login" />;
+    return token ? <Outlet /> : <Navigate to="/login" />;
 };
