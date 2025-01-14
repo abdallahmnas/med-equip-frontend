@@ -3,11 +3,13 @@ import { useAuth } from '../contexts/AuthContext';
 import { PageLoading } from '../components/page-loading';
 
 export const ProtectedRoute = () => {
-    const { loading, user } = useAuth();
+    const { loading,
+        //  user 
+        } = useAuth();
     const token = localStorage.getItem('token');
 
 
-    if (loading || !user) {
+    if (loading) {
         return <PageLoading />
     }
     console.log(token)

@@ -1,5 +1,5 @@
 import { ArrowLeft } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Button } from '../../components/ui/button'
 // import { Breadcrumb } from '../../components/breadcrumb'
 import { Card } from '../../components/ui/card'
@@ -7,6 +7,7 @@ import { Badge } from '../../components/ui/badge'
 import { MainLayout } from '../../components/layout'
 import { useEffect, useState } from 'react'
 import { equpmentsService } from '../../services/equipments.service'
+import { useEquipment } from '../../contexts/EquipmentContext'
 
 // const breadcrumbItems = [
 //     { label: 'Equipment List', link: '/equipment' },
@@ -53,7 +54,9 @@ export function EquipmentDetails() {
 
     //  equipment Id from url
     const equipmentId = useParams().id
+    const navigate = useNavigate()
     const [equipmentDetails, setEquipmentDetails] = useState<any>({})
+    const {setEquipment} = useEquipment();
 
     useEffect(() => {
         const fetchEquipments = async () => {
@@ -79,7 +82,12 @@ export function EquipmentDetails() {
                         <h1 className="text-2xl font-bold">Equipment Details</h1>
                     </div>
                     <div className="flex items-center gap-2">
-                        <Button variant="outline">Edit</Button>
+                        <Button variant="outline"
+                         onClick={()=>{
+                            setEquipment(equipmentDetails)
+                            navigate(`/equipments/${equipmentId}/edit`)
+                        }}
+                        >Edit</Button>
                         <Button variant="destructive">Delete</Button>
                     </div>
                 </div>

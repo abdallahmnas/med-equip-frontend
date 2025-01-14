@@ -12,6 +12,7 @@ import { Equipment } from '../pages/admin/Equipment';
 import { ProtectedRoute } from './ProtectedRoute';
 import { EquipmentDetails } from '../pages/admin/EquipmentDetails';
 import AccountDetails from '../pages/admin/AccountDetails';
+import { EquipmentEdit } from '../pages/admin/Equipment_Edit';
 
 
 
@@ -31,6 +32,8 @@ const AppRoutes: React.FC = () => {
                 <Route path="/accounts/:id" element={<AccountDetails />} />
                 <Route path="/equipments" element={<Equipment />} />
                 <Route path="/equipments/:id" element={<EquipmentDetails />} />
+                <Route path="/equipments/:id/edit" element={<EquipmentEdit />} />
+
             </Route>
         </Routes>
     );
