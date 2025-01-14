@@ -119,7 +119,7 @@ export function EquipmentEdit() {
         <div className="rounded-lg border bg-card p-6">
           <h2 className="mb-4 text-lg font-medium">Specifications & Keywords</h2>
           <div className="grid gap-4">
-            {Object.entries(formData.specifications).map(([key, value, rangeFrom, rangeTo]) => (
+            {Object.entries(formData.specifications).map(([key, value]) => (
               <div key={key} className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -199,7 +199,7 @@ export function EquipmentEdit() {
                     onClick={() => {
                       setFormData(prev => ({
                         ...prev,
-                        images: prev.images.filter((_, i) => i !== index)
+                        images: prev.images.filter((_: any, i: any) => i !== index)
                       }))
                     }}
                     className="absolute right-2 top-2 rounded-full bg-background/80 p-1 hover:bg-background"

@@ -11,6 +11,10 @@ export const equpmentsService = {
         const response = await api.post(`/categories`, { name: categoryName })
         return response.data
     },
+    deleteCategory: async (categoryId: string) => {
+        const response = await api.delete(`/categories/${categoryId}/delete`)
+        return response.data
+    },
 
     addEquipment: async (equipmentData: any) => {
         const response = await api.post(`/equipments/${equipmentData.categoryId}`, equipmentData)
@@ -19,6 +23,10 @@ export const equpmentsService = {
 
     getEquipment: async (equipmentId: any) => {
         const response = await api.get(`/equipments/find/${equipmentId}`)
+        return response.data
+    },
+    deleteEquipment: async (categoryId: string) => {
+        const response = await api.delete(`/equipments/${categoryId}/delete`)
         return response.data
     },
 
