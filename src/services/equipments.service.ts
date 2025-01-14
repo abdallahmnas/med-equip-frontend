@@ -12,7 +12,7 @@ export const equpmentsService = {
         return response.data
     },
     deleteCategory: async (categoryId: string) => {
-        const response = await api.delete(`/categories/${categoryId}/delete`)
+        const response = await api.delete(`/categories/${categoryId}`)
         return response.data
     },
 
@@ -26,7 +26,7 @@ export const equpmentsService = {
         return response.data
     },
     deleteEquipment: async (categoryId: string) => {
-        const response = await api.delete(`/equipments/${categoryId}/delete`)
+        const response = await api.delete(`/equipments/${categoryId}`)
         return response.data
     },
 

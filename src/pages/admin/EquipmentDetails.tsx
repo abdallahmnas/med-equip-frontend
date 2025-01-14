@@ -49,7 +49,7 @@ export function EquipmentDetails() {
         try {
             await equpmentsService.deleteEquipment(equipmentId)
             toast.success('Equipment deleted successfully')
-            navigate('/equipment')
+            navigate('/equipments')
         } catch (error) {
             toast.error('Failed to delete equipment')
             console.log(error)
