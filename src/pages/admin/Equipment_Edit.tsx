@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Trash2, Upload } from 'lucide-react'
 import * as Select from '@radix-ui/react-select'
@@ -6,6 +6,8 @@ import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import { MainLayout } from '../../components/layout'
 import { useEquipment } from '../../contexts/EquipmentContext'
+import { equpmentsService } from '../../services/equipments.service'
+import { PageLoading } from '../../components/page-loading'
 
 // interface EquipmentEditProps {
 //   id: string
@@ -14,24 +16,42 @@ import { useEquipment } from '../../contexts/EquipmentContext'
 export function EquipmentEdit() {
   const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const {id} = useParams()
-  const {equipment} = useEquipment()
+  const {equipment, setEquipment} = useEquipment()
+  const [categories, setCategories] = useState([])
   const [formData, setFormData] = useState({
-    name: equipment.name || "",
-    category: equipment.category.name || "",
-    description: equipment.description || "",
-    specifications: equipment.specifications || [],
-    keywords: equipment.keywords || [],
-    images: equipment.images || [],
+    name: equipment?.name || "",
+    category: equipment?.category.name || "",
+    description: equipment?.description || "",
+    keywords: equipment?.keywords || [],
   })
+
+  const getCategories = async()=>{
+    const categories = await equpmentsService.getCategories()
+    setCategories(categories.data)
+  }
+
+  const getEquipment = async()=>{
+    const equipment = await equpmentsService.getEquipment(id)
+    setEquipment(equipment)
+    setFormData(
+     { name: equipment?.name,
+      category: equipment?.category.name,
+      description: equipment?.description,
+      keywords: equipment?.keywords,
+    }
+    )
+    setIsLoading(false)
+  }
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
     
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
+      const updateRecord = await equpmentsService.updateEquipment(id, formData)
       toast.success('Equipment updated successfully')
       navigate(`/equipments/${id}`)
     } catch (error) {
@@ -41,14 +61,14 @@ export function EquipmentEdit() {
     }
   }
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files
-    if (files) {
-      // Handle image upload logic here
-      toast.info('Image upload functionality would go here')
-    }
-  }
+  useEffect(()=>{
+    getEquipment()
+    getCategories()
+  }, [])
 
+  if(isLoading){
+    return <PageLoading />
+  }
   return (
     <MainLayout title="">
     <div className="container mx-auto max-w-5xl p-6">
@@ -78,29 +98,21 @@ export function EquipmentEdit() {
                 className="w-full rounded-md border bg-background px-3 py-2"
               />
             </div>
-            {/* <div>
-              <label className="mb-2 block text-sm font-medium">Category{JSON.stringify(formData.category)}</label>
-              <Select.Root
+            <div>
+              <label className="mb-2 block text-sm font-medium">Category</label>
+              <select
                 value={formData.category}
-                onValueChange={value => setFormData(prev => ({ ...prev, category: value }))}
+                onChange={(e) => setFormData((prev) => ({ ...prev, category: e.target.value }))}
+                className="w-full rounded-md border bg-background px-3 py-2 text-gray-900"
               >
-                <Select.Trigger className="w-full rounded-md border bg-background px-3 py-2 text-left">
-                  <Select.Value />
-                </Select.Trigger>
-                <Select.Portal>
-                  <Select.Content className="rounded-md border bg-popover shadow-md">
-                    <Select.Viewport>
-                      <Select.Item value="category1" className="cursor-pointer px-3 py-2 hover:bg-accent">
-                        <Select.ItemText>Category 1</Select.ItemText>
-                      </Select.Item>
-                      <Select.Item value="category2" className="cursor-pointer px-3 py-2 hover:bg-accent">
-                        <Select.ItemText>Category 2</Select.ItemText>
-                      </Select.Item>
-                    </Select.Viewport>
-                  </Select.Content>
-                </Select.Portal>
-              </Select.Root>
-            </div> */}
+                <option value="" disabled>Select a category</option>
+                {
+                  categories.map((category: any, index: number)=>(
+                    <option value={category.id}>{category.name}</option>
+                  ))
+                }
+              </select>
+            </div>
           </div>
         </div>
 
@@ -115,60 +127,13 @@ export function EquipmentEdit() {
           />
         </div>
 
-        {/* Specifications & Keywords */}
+        {/* Keywords */}
         <div className="rounded-lg border bg-card p-6">
-          <h2 className="mb-4 text-lg font-medium">Specifications & Keywords</h2>
+          <h2 className="mb-4 text-lg font-medium">Keywords</h2>
           <div className="grid gap-4">
-            {Object.entries(formData.specifications).map(([key, value]) => (
-              <div key={key} className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  value={key}
-                  className="rounded-md border bg-background px-3 py-2"
-                  placeholder="Key"
-                  onChange={e => {
-                    const newSpecs = { ...formData.specifications }
-                    delete newSpecs[key]
-                    newSpecs[e.target.value] = value
-                    setFormData(prev => ({ ...prev, specifications: newSpecs }))
-                  }}
-                />
-                <input
-                  type="text"
-                  value={value as string || ""}
-                  className="rounded-md border bg-background px-3 py-2"
-                  placeholder="Value"
-                  onChange={e => {
-                    setFormData(prev => ({
-                      ...prev,
-                      specifications: {
-                        ...prev.specifications,
-                        [key]: e.target.value
-                      }
-                    }))
-                  }}
-                />
-              </div>
-            ))}
-            <button
-              type="button"
-              onClick={() => {
-                setFormData(prev => ({
-                  ...prev,
-                  specifications: {
-                    ...prev.specifications,
-                    '': ''
-                  }
-                }))
-              }}
-              className="mt-2 text-sm text-primary hover:text-primary/80"
-            >
-              + Add Specification
-            </button>
           </div>
 
           <div className="mt-4">
-            <label className="mb-2 block text-sm font-medium">Keywords</label>
             <input
               type="text"
               value={formData.keywords.join(', ')}
@@ -181,52 +146,6 @@ export function EquipmentEdit() {
             />
           </div>
         </div>
-
-        {/* Images */}
-        <div className="rounded-lg border bg-card p-6">
-          <h2 className="mb-4 text-lg font-medium">Images</h2>
-          <div className="grid gap-4">
-            <div className="grid grid-cols-2 gap-4">
-              {formData.images.map((image: any, index: number) => (
-                <div key={index} className="relative aspect-video rounded-lg border bg-muted">
-                  <img
-                    src={image.url}
-                    alt={`Equipment ${index + 1}`}
-                    className="h-full w-full rounded-lg object-cover"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setFormData(prev => ({
-                        ...prev,
-                        images: prev.images.filter((_: any, i: any) => i !== index)
-                      }))
-                    }}
-                    className="absolute right-2 top-2 rounded-full bg-background/80 p-1 hover:bg-background"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
-            </div>
-            <label className="flex cursor-pointer items-center justify-center rounded-lg border border-dashed p-6 hover:border-primary">
-              <div className="text-center">
-                <Upload className="mx-auto h-8 w-8 text-muted-foreground" />
-                <span className="mt-2 block text-sm text-muted-foreground">
-                  Click to upload
-                </span>
-              </div>
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-            </label>
-          </div>
-        </div>
-
         {/* Action Buttons */}
         <div className="flex justify-end gap-4">
           <button

@@ -3,7 +3,7 @@ import api from "./api";
 
 export const equpmentsService = {
     getCategories: async () => {
-        const response = await api.get(`/categories`)
+        const response = await api.get(`/categories/all`)
         return response.data
     },
 
@@ -16,8 +16,25 @@ export const equpmentsService = {
         return response.data
     },
 
+    addImages:async (equipmentId: any, image: any) => {
+        const response = await api.post(`/images/`,{
+            url:image,
+            equipmentId
+        })
+        console.log(response)
+        return response.data
+    },
+    removeImage:async (imageId: string) => {
+        const response = await api.delete(`/images/${imageId}`)
+        return response.data
+    },
+
     addEquipment: async (equipmentData: any) => {
         const response = await api.post(`/equipments/${equipmentData.categoryId}`, equipmentData)
+        return response.data
+    },
+    updateEquipment: async (equipmentId: any, equipmentData: any) => {
+        const response = await api.put(`/equipments/${equipmentId}`, equipmentData)
         return response.data
     },
 
@@ -25,7 +42,7 @@ export const equpmentsService = {
         const response = await api.get(`/equipments/find/${equipmentId}`)
         return response.data
     },
-    deleteEquipment: async (categoryId: string) => {
+    deleteEquipment: async (categoryId: any) => {
         const response = await api.delete(`/equipments/${categoryId}`)
         return response.data
     },
@@ -52,6 +69,16 @@ export const equpmentsService = {
 
     getAllProperties: async () => {
         const response = await api.get(`/properties`)
+        return response.data
+    },
+
+    addSpecification: async (equipmentId: any, spec: any) => {
+        const response = await api.post(`/properties/${equipmentId}`, spec)
+        console.log(response)
+        return response.data
+    },
+   removeSpecification: async (specId: any) => {
+        const response = await api.delete(`/properties/${specId}`)
         return response.data
     },
 

@@ -7,10 +7,12 @@ import { EquipmentCard } from '../../components/layout/equipmentCard'
 import { MainLayout } from '../../components/layout'
 import { equpmentsService } from '../../services/equipments.service'
 import { useNavigate } from 'react-router-dom'
+import { useEquipment } from '../../contexts/EquipmentContext'
 
 export function Equipment() {
     const [isAddingEquipment, setIsAddingEquipment] = useState(false)
     const [equipments, setEquipments] = useState([])
+    const {setEquipment} = useEquipment()
     const navigate = useNavigate()
 
 
@@ -55,7 +57,10 @@ export function Equipment() {
                                 name={item?.name}
                                 category={item?.categoryId}
                                 imageUrl={item?.images[0]?.url}
-                                onViewDetails={() => navigate(`/equipments/${item?.id}`)}
+                                onViewDetails={() => {
+                                    setEquipment(item)
+                                    navigate(`/equipments/${item?.id}`)}
+                                }
                             />
                         ))}
                     </div>

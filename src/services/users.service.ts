@@ -13,8 +13,8 @@ async function getUser(id: string): Promise<any> {
 // Function to get all users
 async function getAllUsers(): Promise<any> {
     try {
-        const response = await api.get<any>('/users');
-        // console.log(response.data);  // Log the entire response
+        const response = await api.get<any>('/users/all');
+        console.log(response.data);  // Log the entire response
         return response.data;  // Return only the data portion of the response
 
     } catch (error: any) {
