@@ -45,6 +45,21 @@ export function EquipmentEdit() {
     setIsLoading(false)
   }
 
+  const [inputValue, setInputValue] = useState(""); 
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    const keywords = inputValue
+      .split(",")
+      .map((k) => k.trim())
+      .filter(Boolean); // Parse and clean keywords on blur
+    setFormData((prev) => ({ ...prev, keywords }));
+    setInputValue(""); // Clear input field after parsing
+  };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,6 +67,7 @@ export function EquipmentEdit() {
     
     try {
       const updateRecord = await equpmentsService.updateEquipment(id, formData)
+      console.log(updateRecord)
       toast.success('Equipment updated successfully')
       navigate(`/equipments/${id}`)
     } catch (error) {
@@ -128,7 +144,7 @@ export function EquipmentEdit() {
         </div>
 
         {/* Keywords */}
-        <div className="rounded-lg border bg-card p-6">
+        {/* <div className="rounded-lg border bg-card p-6">
           <h2 className="mb-4 text-lg font-medium">Keywords</h2>
           <div className="grid gap-4">
           </div>
@@ -136,16 +152,17 @@ export function EquipmentEdit() {
           <div className="mt-4">
             <input
               type="text"
-              value={formData.keywords.join(', ')}
-              onChange={e => {
-                const keywords = e.target.value.split(',').map(k => k.trim()).filter(Boolean)
-                setFormData(prev => ({ ...prev, keywords }))
-              }}
+              value={inputValue}
+              onChange={handleInputChange}
+              onBlur={handleInputBlur} // Parse keywords when input loses focus
               className="w-full rounded-md border bg-background px-3 py-2"
               placeholder="Enter keywords separated by commas"
             />
+            <p className="mt-2 text-sm text-muted">
+              Current keywords: {formData.keywords.join(", ")}
+            </p>
           </div>
-        </div>
+        </div> */}
         {/* Action Buttons */}
         <div className="flex justify-end gap-4">
           <button

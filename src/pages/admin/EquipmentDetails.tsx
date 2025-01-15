@@ -12,6 +12,7 @@ import { Badge } from '../../components/ui/badge';
 import { AddSpecificationDialog } from '../../components/add-specification-dialog';
 import { AddImageDialog } from '../../components/add-image-dialog';
 import { DeleteConfirmationDialog } from '../../components/delete-confirmation-dialog';
+import { PageLoading } from '../../components/page-loading';
 
 interface ChangeLogEntry {
   type: 'add' | 'delete';
@@ -60,6 +61,8 @@ export function EquipmentDetails() {
   const [isAddingSpec, setIsAddingSpec] = useState(false);
   const [isAddingImage, setIsAddingImage] = useState(false);
   const [changeLog, setChangeLog] = useState<ChangeLogEntry[]>([]);
+  const [isLoading, setIsLoading] = useState(true)
+
 
   const [deletingSpec, setDeletingSpec] = useState<{ id: string; name: string } | null>(null);
   const [deletingImage, setDeletingImage] = useState<{ id: string; index: number } | null>(null);
@@ -69,8 +72,9 @@ export function EquipmentDetails() {
   useEffect(() => {
     const fetchEquipments = async () => {
       try {
-        // const data = await equpmentsService.getEquipment(equipmentId);
-        setEquipmentDetails(equipment);
+        const data = await equpmentsService.getEquipment(equipmentId);
+        setEquipmentDetails(data);
+        setIsLoading(false)
       } catch (error) {
         console.error('Failed to fetch equipment details:', error);
         toast.error('Failed to load equipment details');
@@ -208,11 +212,13 @@ export function EquipmentDetails() {
   };
 
 
-
+if(isLoading){
+    return <PageLoading />
+}
   return (
     <MainLayout title="">
       <Toaster />
-      {equipmentDetails.name ? (
+  (
         <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -345,7 +351,7 @@ export function EquipmentDetails() {
                 </div>
               </Card>
 
-              <Card className="p-6">
+              {/* <Card className="p-6">
                 <div className="flex items-center gap-2 mb-4">
                   <Clock className="h-5 w-5" />
                   <h2 className="text-lg font-semibold">Recent Changes</h2>
@@ -376,15 +382,11 @@ export function EquipmentDetails() {
                     </p>
                   )}
                 </div>
-              </Card>
+              </Card> */}
             </div>
           </div>
         </div>
-      ) : (
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-2xl font-bold text-gray-500">Loading ...</h1>
-        </div>
-      )}
+      )
 
       <DeleteConfirmationDialog
         isOpen={isDeleteDialogOpen}

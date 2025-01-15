@@ -55,7 +55,7 @@ export function Equipment() {
                             <EquipmentCard
                                 key={index}
                                 name={item?.name}
-                                category={item?.categoryId}
+                                category={item?.name}
                                 imageUrl={item?.images[0]?.url}
                                 onViewDetails={() => {
                                     setEquipment(item)

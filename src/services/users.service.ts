@@ -1,9 +1,9 @@
 import api from "./api";
 
 // Function to get a user by ID
-async function getUser(id: string): Promise<any> {
+async function getUser(id: any): Promise<any> {
     try {
-        const response = await api.get<any>(`/users/${id}`);
+        const response = await api.get<any>(`/users/find/${id}`);
         return response.data;  // Return only the data portion of the response
     } catch (error: any) {
         handleError(error, 'Failed to get user');

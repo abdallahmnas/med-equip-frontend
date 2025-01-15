@@ -8,8 +8,8 @@ import {
 // import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "../../components/ui/breadcrumb"
 
 interface UserDetails {
-    firstName: string
-    lastName: string
+    firstname: string
+    lastname: string
     email: string
     occupation: string
     address: string
@@ -58,11 +58,11 @@ export function UserDetails({ user, onDelete }: UserDetailsProps) {
                     <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                         <div className="space-y-1.5">
                             <label className="text-sm text-gray-500">First Name</label>
-                            <p className="font-medium">{user.firstName}</p>
+                            <p className="font-medium">{user.firstname}</p>
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-sm text-gray-500">Last Name</label>
-                            <p className="font-medium">{user.lastName}</p>
+                            <p className="font-medium">{user.lastname}</p>
                         </div>
                         <div className="space-y-1.5">
                             <label className="text-sm text-gray-500">Email Address</label>
@@ -91,11 +91,11 @@ export function UserDetails({ user, onDelete }: UserDetailsProps) {
                 <CardContent>
                     <div className="grid grid-cols-2 gap-6">
                         <div className="space-y-1">
-                            <p className="text-2xl font-semibold">{user.statistics.searches}</p>
+                            <p className="text-2xl font-semibold">{user?.statistics?.searches}</p>
                             <p className="text-sm text-gray-500">Searches</p>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-2xl font-semibold">{user.statistics.saves}</p>
+                            <p className="text-2xl font-semibold">{user?.statistics?.saves}</p>
                             <p className="text-sm text-gray-500">Saves</p>
                         </div>
                     </div>
@@ -103,13 +103,13 @@ export function UserDetails({ user, onDelete }: UserDetailsProps) {
             </Card>
 
             <div className="flex justify-end">
-                <Button
+                {/* <Button
                     variant="destructive"
                     onClick={onDelete}
                     className="px-8"
                 >
                     Delete User
-                </Button>
+                </Button> */}
             </div>
         </div>
     )
