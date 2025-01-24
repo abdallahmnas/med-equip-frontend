@@ -1,95 +1,107 @@
 import api from "./api";
 
-
 export const equpmentsService = {
-    getCategories: async () => {
-        const response = await api.get(`/categories/all`)
-        return response.data
-    },
+  getCategories: async () => {
+    const response = await api.get(`/admin/equipments/categories`);
+    return response.data;
+  },
 
-    addCategory: async (categoryName: string) => {
-        const response = await api.post(`/categories`, { name: categoryName })
-        return response.data
-    },
-    deleteCategory: async (categoryId: string) => {
-        const response = await api.delete(`/categories/${categoryId}`)
-        return response.data
-    },
+  addCategory: async (body: { name?: string; description?: string }) => {
+    const response = await api.post(`/admin/equipments/categories`, body);
+    return response.data;
+  },
+  deleteCategory: async (categoryId: string) => {
+    const response = await api.delete(
+      `/admin/equipments/categories/${categoryId}`
+    );
+    return response.data;
+  },
 
-    addImages:async (equipmentId: any, image: any) => {
-        const response = await api.post(`/images/`,{
-            url:image,
-            equipmentId
-        })
-        console.log(response)
-        return response.data
-    },
-    removeImage:async (imageId: string) => {
-        const response = await api.delete(`/images/${imageId}`)
-        return response.data
-    },
+  addImages: async (equipmentId: any, image: any) => {
+    const response = await api.post(`/images/`, {
+      url: image,
+      equipmentId,
+    });
+    console.log(response);
+    return response.data;
+  },
+  removeImage: async (imageId: string) => {
+    const response = await api.delete(`/images/${imageId}`);
+    return response.data;
+  },
 
-    addEquipment: async (equipmentData: any) => {
-        const response = await api.post(`/equipments/${equipmentData.categoryId}`, equipmentData)
-        return response.data
-    },
-    updateEquipment: async (equipmentId: any, equipmentData: any) => {
-        const response = await api.put(`/equipments/${equipmentId}`, equipmentData)
-        return response.data
-    },
+  addEquipment: async (equipmentData: any) => {
+    const response = await api.post(
+      `/admin/equipments`, ///${equipmentData.categoryId}
+      equipmentData
+    );
+    return response.data;
+  },
+  updateEquipment: async (equipmentId: any, equipmentData: any) => {
+    const response = await api.put(
+      `/admin/equipments/${equipmentId}`,
+      equipmentData
+    );
+    return response.data;
+  },
 
-    getEquipment: async (equipmentId: any) => {
-        const response = await api.get(`/equipments/find/${equipmentId}`)
-        return response.data
-    },
-    deleteEquipment: async (categoryId: any) => {
-        const response = await api.delete(`/equipments/${categoryId}`)
-        return response.data
-    },
+  getEquipment: async (equipmentId: any) => {
+    const response = await api.get(`/admin/equipments/find/${equipmentId}`);
+    return response.data;
+  },
+  deleteEquipment: async (categoryId: any) => {
+    const response = await api.delete(`/equipments/${categoryId}`);
+    return response.data;
+  },
 
-    getEquipmentList: async () => {
-        const response = await api.get(`/equipments/all`)
-        return response.data
-    },
+  getEquipmentList: async () => {
+    const response = await api.get(`/admin/equipments`);
+    return response.data;
+  },
 
-    getSearches: async () => {
-        const response = await api.get(`/equipments/search-records`)
-        return response
-    },
+  getSearches: async () => {
+    const response = await api.get(`/admin/equipments/search-records`);
+    return response;
+  },
 
-    getProperties: async (id: any) => {
-        const response = await api.get(`/properties/${id}`)
-        return response.data
-    },
+  getProperties: async (id: any) => {
+    const response = await api.get(`/admin/properties/${id}`);
+    return response.data;
+  },
 
-    addProperty: async (propertyData: any) => {
-        const response = await api.post(`/properties`, propertyData)
-        return response.data
-    },
+  addProperty: async (propertyData: any) => {
+    const response = await api.post(`/admin/properties`, propertyData);
+    return response.data;
+  },
 
-    getAllProperties: async () => {
-        const response = await api.get(`/properties`)
-        return response.data
-    },
+  getAllProperties: async () => {
+    const response = await api.get(`/admin/properties`);
+    return response.data;
+  },
 
-    addSpecification: async (equipmentId: any, spec: any) => {
-        const response = await api.post(`/properties/${equipmentId}`, spec)
-        console.log(response)
-        return response.data
-    },
-   removeSpecification: async (specId: any) => {
-        const response = await api.delete(`/properties/${specId}`)
-        return response.data
-    },
+  addSpecification: async (equipmentId: any, spec: any) => {
+    const response = await api.post(`/admin/properties/${equipmentId}`, spec);
+    console.log(response);
+    return response.data;
+  },
+  removeSpecification: async (specId: any) => {
+    const response = await api.delete(`/admin/properties/${specId}`);
+    return response.data;
+  },
 
-    uploadImage: async (file: File) => {
-        const formData = new FormData()
-        formData.append('image', file)
-        const response = await api.post(`/uploads/single`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        })
-        return response.data.filePath
-    },
-}
+  uploadImage: async (files: any) => {
+    const formData = new FormData();
+    console.log("Length of files ", files.length);
+    for (let i = 0; i < files.length; i++) {
+      //   productimages.push(files[i]);
+      formData.append("images", files[i]);
+    }
+    // formData.append("images", files);
+    const response = await api.post(`/admin/upload/bulk`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
+};

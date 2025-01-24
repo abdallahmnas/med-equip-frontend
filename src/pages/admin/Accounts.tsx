@@ -57,7 +57,7 @@ export function Accounts() {
       setUsers((prev) => prev.filter((u) => u.id !== id));
     } catch (error) {
       console.error("Failed to delete user:", error);
-      toast.error("Failed to delete user.");
+      toast.error("Failed to delete user?.");
     } finally {
       setIsDeleting(false);
       setIsDeleteDialogOpen(false);
@@ -65,17 +65,17 @@ export function Accounts() {
   };
 
   const UserRow = ({ user }: { user: User }) => (
-    <TableRow key={user.id}>
-      <TableCell>{user.firstname} {user.lastname}</TableCell>
-      <TableCell>{user.occupation}</TableCell>
-      <TableCell>{user.address}</TableCell>
+    <TableRow key={user?.id}>
+      <TableCell>{user?.firstname} {user?.lastname}</TableCell>
+      <TableCell>{user?.occupation}</TableCell>
+      <TableCell>{user?.address}</TableCell>
       <TableCell className="text-right">
         <div className="flex justify-end gap-2">
           <Button
             variant="outline"
             size="icon"
             className="h-8 w-8"
-            onClick={() => navigate(`../accounts/${user.id}`)}
+            onClick={() => navigate(`../accounts/${user?.id}`)}
           >
             <Eye className="h-4 w-4" />
             <span className="sr-only">View user</span>
@@ -133,7 +133,7 @@ export function Accounts() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  users.map((user) => <UserRow key={user.id} user={user} />)
+                  users.map((user) => <UserRow key={user?.id} user={user} />)
                 )}
               </TableBody>
             </Table>
@@ -169,8 +169,8 @@ export function Accounts() {
                   </TableRow>
                 ) : (
                   users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>{user.firstname} {user.lastname}</TableCell>
+                    <TableRow key={user?.id}>
+                      <TableCell>{user?.firstname} {user?.lastname}</TableCell>
                       <TableCell>500+</TableCell>
                       <TableCell>45</TableCell>
                     </TableRow>

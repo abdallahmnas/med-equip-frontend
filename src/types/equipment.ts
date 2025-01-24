@@ -1,32 +1,30 @@
 export interface EquipmentFormData {
-    // Basic Information
-    name: string
-    category: { id: number | string; name: string }
+  // Basic Information
+  name: string;
+  categoryId: string; // { id: number | string; name: string }
 
-    // Descriptive Information
-    description: string
+  // Descriptive Information
+  description: string;
 
-    // Images
-    images: any[]
+  // Images
+  images: any[];
 
-    // Specifications
-    specifications: any
+  // Specifications
+  specifications: any;
 
-    // Keywords
-    keywords: string[]
+  // Keywords
+  keywords: string[];
 
-    //useCases
-    usecases: string[]
-
+  //useCases
+  usecases: string[];
 }
 
 export type FormStep =
-    | 'basic-info'
-    | 'description'
-    | 'images'
-    | 'specifications'
-    | 'keywords'
-    | 'usecases'
-    | 'review'
-    | 'success'
-
+  | "basic-info"
+  | "description"
+  | "images"
+  | "specifications"
+  | "keywords"
+  | "usecases"
+  | "review"
+  | "success";
