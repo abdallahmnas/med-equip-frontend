@@ -41,7 +41,7 @@ export function EquipmentEdit() {
     setIsLoading(false);
   };
 
-  const [inputValue, setInputValue] = useState("");
+  // const [inputValue, setInputValue] = useState("");
 
   // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setInputValue(e.target.value);
