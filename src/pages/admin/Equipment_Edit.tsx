@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Trash2, Upload } from "lucide-react";
-import * as Select from "@radix-ui/react-select";
+import { ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { MainLayout } from "../../components/layout";
 import { useEquipment } from "../../contexts/EquipmentContext";
 import { equpmentsService } from "../../services/equipments.service";
 import { PageLoading } from "../../components/page-loading";
-
-// interface EquipmentEditProps {
-//   id: string
-// }
 
 export function EquipmentEdit() {
   const navigate = useNavigate();
@@ -33,31 +28,33 @@ export function EquipmentEdit() {
   };
 
   const getEquipment = async () => {
-    const equipment = await equpmentsService.getEquipment(id);
-    setEquipment(equipment);
-    setFormData({
-      name: equipment?.name,
-      category: equipment?.categoryId, //.category.name,
-      description: equipment?.description,
-      keywords: equipment?.keywords,
-    });
+    try {
+      const equipment = await equpmentsService.getEquipment(id);
+      setEquipment(equipment);
+      setFormData({
+        name: equipment?.data?.name,
+        category: equipment?.data?.category, //.category.name,
+        description: equipment?.data?.description,
+        keywords: equipment?.data?.keywords,
+      });
+    } catch (e: any) {}
     setIsLoading(false);
   };
 
   const [inputValue, setInputValue] = useState("");
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
-  };
+  // const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setInputValue(e.target.value);
+  // };
 
-  const handleInputBlur = () => {
-    const keywords = inputValue
-      .split(",")
-      .map((k) => k.trim())
-      .filter(Boolean); // Parse and clean keywords on blur
-    setFormData((prev) => ({ ...prev, keywords }));
-    setInputValue(""); // Clear input field after parsing
-  };
+  // const handleInputBlur = () => {
+  //   const keywords = inputValue
+  //     .split(",")
+  //     .map((k) => k.trim())
+  //     .filter(Boolean); // Parse and clean keywords on blur
+  //   setFormData((prev) => ({ ...prev, keywords }));
+  //   setInputValue(""); // Clear input field after parsing
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,7 +129,9 @@ export function EquipmentEdit() {
                     Select a category
                   </option>
                   {categories.map((category: any, index: number) => (
-                    <option value={category.id}>{category.name}</option>
+                    <option key={index} value={category.id}>
+                      {category.name}
+                    </option>
                   ))}
                 </select>
               </div>

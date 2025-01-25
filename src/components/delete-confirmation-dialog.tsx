@@ -1,6 +1,12 @@
-
-import { AlertTriangle } from "lucide-react"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "./ui/dialog";
+import { AlertTriangle } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "./ui/dialog";
 import { Button } from "./ui/button";
 
 interface DeleteConfirmationDialogProps {
@@ -18,42 +24,44 @@ export function DeleteConfirmationDialog({
   onConfirm,
   title,
   description,
-  isLoading
+  isLoading,
 }: DeleteConfirmationDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>
-          <div className="flex items-center gap-3 text-destructive">
-            <AlertTriangle className="h-6 w-6" />
-            <DialogTitle>{title}</DialogTitle>
-          </div>
-          <DialogDescription className="pt-3">
-            {description}
-          </DialogDescription>
-        </DialogHeader>
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose} disabled={isLoading}>
-            Cancel
-          </Button>
-          <Button 
-            variant="destructive" 
-            onClick={onConfirm}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div className="flex items-center gap-2">
-                <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                Deleting...
-              </div>
-            ) : (
-              'Delete'
-            )}
-          </Button>
-        </DialogFooter>
+        <div style={{ backgroundColor: "#ffffff", padding: "5px" }}>
+          <DialogHeader>
+            <div className="flex items-center gap-3 text-destructive">
+              <AlertTriangle className="h-6 w-6" />
+              <DialogTitle>{title}</DialogTitle>
+            </div>
+            <DialogDescription className="pt-3">
+              {description}
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={onClose} disabled={isLoading}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={onConfirm}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                  Deleting...
+                </div>
+              ) : (
+                "Delete"
+              )}
+            </Button>
+          </DialogFooter>
+        </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
 // import * as Dialog from '@radix-ui/react-dialog'
 // import { AlertTriangle } from 'lucide-react'
@@ -111,4 +119,3 @@ export function DeleteConfirmationDialog({
 //     </Dialog.Root>
 //   )
 // }
-

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowLeft, Plus, Trash2, Clock } from "lucide-react";
+import { ArrowLeft, Plus, Trash2 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast, Toaster } from "sonner";
 import { useEquipment } from "../../contexts/EquipmentContext";
@@ -80,6 +80,7 @@ export function EquipmentDetails() {
         const equipResult = await equpmentsService.getEquipment(equipmentId);
         setEquipmentDetails(equipResult.data);
         setIsLoading(false);
+        console.log(equipment, changeLog);
       } catch (error) {
         console.error("Failed to fetch equipment details:", error);
         toast.error("Failed to load equipment details");
@@ -194,10 +195,20 @@ export function EquipmentDetails() {
       const formData = new FormData();
       Array.from(files).forEach(async (file) => {
         formData.append("images", file);
+        // try {
+        //   const imageUrl = await equpmentsService.uploadImage(file);
+        //   const imgDB = await equpmentsService.addImages(equipmentId, imageUrl);
+        //   console.log(imgDB);
+        // } catch (error) {
+        //   console.error("Error uploading image:", error);
+        // }
+
         try {
-          const imageUrl = await equpmentsService.uploadImage(file);
-          const imgDB = await equpmentsService.addImages(equipmentId, imageUrl);
-          console.log(imgDB);
+          const uploadImages = await equpmentsService.addEquipmentsImages(
+            equipmentId,
+            formData
+          );
+          console.log(uploadImages);
         } catch (error) {
           console.error("Error uploading image:", error);
         }
@@ -417,34 +428,36 @@ export function EquipmentDetails() {
         description="Are you sure you want to delete this equipment? This action cannot be undone."
         isLoading={isDeleting}
       />
-      <DeleteConfirmationDialog
-        isOpen={!!deletingSpec}
-        onClose={() => setDeletingSpec(null)}
-        onConfirm={() => handleRemoveSpecification(deletingSpec!.id)}
-        title="Delete Specification"
-        description={`Are you sure you want to delete the specification "${deletingSpec?.name}"? This action cannot be undone.`}
-        isLoading={isDeletingSpec}
-      />
-      <DeleteConfirmationDialog
-        isOpen={!!deletingImage}
-        onClose={() => setDeletingImage(null)}
-        onConfirm={() => handleRemoveImage(deletingImage!.id)}
-        title="Delete Image"
-        description={`Are you sure you want to delete image #${deletingImage?.index}? This action cannot be undone.`}
-        isLoading={isDeletingImage}
-      />
-      <AddSpecificationDialog
-        isOpen={isAddSpecOpen}
-        onClose={() => setIsAddSpecOpen(false)}
-        onAdd={handleAddSpecification}
-        isLoading={isAddingSpec}
-      />
-      <AddImageDialog
-        isOpen={isAddImageOpen}
-        onClose={() => setIsAddImageOpen(false)}
-        onAdd={handleAddImages}
-        isLoading={isAddingImage}
-      />
+      <div style={{ backgroundColor: "white" }}>
+        <DeleteConfirmationDialog
+          isOpen={!!deletingSpec}
+          onClose={() => setDeletingSpec(null)}
+          onConfirm={() => handleRemoveSpecification(deletingSpec!.id)}
+          title="Delete Specification"
+          description={`Are you sure you want to delete the specification "${deletingSpec?.name}"? This action cannot be undone.`}
+          isLoading={isDeletingSpec}
+        />
+        <DeleteConfirmationDialog
+          isOpen={!!deletingImage}
+          onClose={() => setDeletingImage(null)}
+          onConfirm={() => handleRemoveImage(deletingImage!.id)}
+          title="Delete Image"
+          description={`Are you sure you want to delete image #${deletingImage?.index}? This action cannot be undone.`}
+          isLoading={isDeletingImage}
+        />
+        <AddSpecificationDialog
+          isOpen={isAddSpecOpen}
+          onClose={() => setIsAddSpecOpen(false)}
+          onAdd={handleAddSpecification}
+          isLoading={isAddingSpec}
+        />
+        <AddImageDialog
+          isOpen={isAddImageOpen}
+          onClose={() => setIsAddImageOpen(false)}
+          onAdd={handleAddImages}
+          isLoading={isAddingImage}
+        />
+      </div>
     </MainLayout>
   );
 }

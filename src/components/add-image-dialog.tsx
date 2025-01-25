@@ -1,13 +1,13 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import { useState } from 'react'
-import { Button } from './ui/button'
-import { Upload, X } from 'lucide-react'
+import * as Dialog from "@radix-ui/react-dialog";
+import { useState } from "react";
+import { Button } from "./ui/button";
+import { Upload, X } from "lucide-react";
 
 interface AddImageDialogProps {
-  isOpen: boolean
-  onClose: () => void
-  onAdd: (files: FileList) => Promise<void>
-  isLoading?: boolean
+  isOpen: boolean;
+  onClose: () => void;
+  onAdd: (files: FileList) => Promise<void>;
+  isLoading?: boolean;
 }
 
 export function AddImageDialog({
@@ -16,15 +16,15 @@ export function AddImageDialog({
   onAdd,
   isLoading = false,
 }: AddImageDialogProps) {
-  const [files, setFiles] = useState<any>(null)
+  const [files, setFiles] = useState<any>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (files) {
-      await onAdd(files)
-      setFiles(null)
+      await onAdd(files);
+      setFiles(null);
     }
-  }
+  };
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
@@ -56,10 +56,11 @@ export function AddImageDialog({
             {files && files.length > 0 && (
               <div className="space-y-2">
                 <h4 className="text-sm font-medium">Selected Files:</h4>
-                {Array.from(files).map((file, index) => (
+                {Array.from(files).map((file: any, index) => (
                   <div
                     key={index}
                     className="flex items-center justify-between rounded-md border p-2"
+                    id={file?.url}
                   >
                     {/* <span className="text-sm">{file.url}</span> */}
                     <Button
@@ -79,13 +80,12 @@ export function AddImageDialog({
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading || !files}>
-                {isLoading ? 'Uploading...' : 'Upload'}
+                {isLoading ? "Uploading..." : "Upload"}
               </Button>
             </div>
           </form>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
-  )
+  );
 }
-

@@ -50,7 +50,7 @@ export const equpmentsService = {
     return response.data;
   },
   deleteEquipment: async (categoryId: any) => {
-    const response = await api.delete(`/equipments/${categoryId}`);
+    const response = await api.delete(`/admin/equipments/${categoryId}`);
     return response.data;
   },
 
@@ -102,6 +102,26 @@ export const equpmentsService = {
         "Content-Type": "multipart/form-data",
       },
     });
+    return response.data;
+  },
+
+  addEquipmentsImages: async (id: any, formData: any) => {
+    // const formData = new FormData();
+    // console.log("Length of files ", files.length);
+    // for (let i = 0; i < files.length; i++) {
+    //   //   productimages.push(files[i]);
+    //   formData.append("images", files[i]);
+    // }
+    // formData.append("images", files);
+    const response = await api.post(
+      `/admin/equipments/${id}/images`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     return response.data;
   },
 };
