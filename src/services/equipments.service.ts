@@ -46,7 +46,7 @@ export const equpmentsService = {
   },
 
   getEquipment: async (equipmentId: any) => {
-    const response = await api.get(`/admin/equipments/find/${equipmentId}`);
+    const response = await api.get(`/admin/equipments/${equipmentId}`);
     return response.data;
   },
   deleteEquipment: async (categoryId: any) => {
@@ -60,7 +60,7 @@ export const equpmentsService = {
   },
 
   getSearches: async () => {
-    const response = await api.get(`/admin/equipments/search-records`);
+    const response = await api.get(`/admin/equipments/searches`);
     return response;
   },
 
